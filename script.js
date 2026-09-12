@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     {
       name: 'TELEGRAM',
-      url: 'https://t.me/buddy42068',
+      url: 'https://t.me/buddy682',
       id: 'telegram',
       className: 'telegram-canal',
-      text: 'TELEGRAM ✈️  @buddy42068',
+      text: 'TELEGRAM ✈️  @buddy682',
       icon: '#icon-telegram'
     }
   ];
@@ -43,10 +43,74 @@ document.addEventListener('DOMContentLoaded', function () {
       quality: '🍫 HASH',
       image: 'CategHash.png',
       farms: [
-        { id: 'JAUNE', name: '🟡 JAUNE', badgeText: 'BuddyCoffee', products: [] },
-        { id: 'DRY', name: '🏜️ DRY', badgeText: 'BuddyCoffee', products: [] },
-        { id: 'FROZEN', name: '🧊 FROZEN', badgeText: 'BuddyCoffee', products: [] },
-        { id: 'PLASMA', name: '⚡ PLASMA', badgeText: 'BuddyCoffee', products: [] }
+        { id: 'JAUNE', name: '🟡 JAUNE', badgeText: 'BuddyCoffee', products: [
+             {
+          id: "la mousse",
+          flag: "🇲🇦",
+          name: "la mousse 🟡",
+          farm: "BuddySelection 🧤",
+          promoEligible: true,
+          type: "Jaune",
+          image: "ProductLM.png",
+          video: "VideoLM.mp4",
+          description: "",
+          tarifs: [
+            { weight: "10g", price: 50.0 },
+            { weight: "25g", price: 90.0 },
+          ],
+        },
+        ] },
+        { id: 'DRY', name: '🏜️ DRY', badgeText: 'BuddyCoffee', products: [
+            {
+          id: "Dry premium",
+          flag: "🇲🇦",
+          name: "Dry premium 🏜️",
+          farm: "BuddySelection 🧤",
+          promoEligible: true,
+          type: "DRY",
+          image: "ProductDP.png",
+          video: "VideoDP.mp4",
+          description: "",
+          tarifs: [
+            { weight: "10g", price: 50.0 },
+            { weight: "25g", price: 90.0 },
+          ],
+        },
+        ] },
+        { id: 'FROZEN', name: '🧊 FROZEN', badgeText: 'BuddyCoffee', products: [
+              {
+          id: "Frozen",
+          flag: "🇲🇦",
+          name: "Frozen 🧊",
+          farm: "BuddySelection 🧤",
+          promoEligible: true,
+          type: "Jaune",
+          image: "ProductF.png",
+          video: "VideoF.mp4",
+          description: "",
+          tarifs: [
+            { weight: "10g", price: 50.0 },
+            { weight: "25g", price: 90.0 },
+          ],
+        },
+        ] },
+        { id: 'PLASMA', name: '⚡ PLASMA', badgeText: 'BuddyCoffee', products: [
+             {
+          id: "Plasma static",
+          flag: "🇲🇦",
+          name: "Plasma static",
+          farm: "BuddySelection 🧤",
+          promoEligible: true,
+          type: "Jaune",
+          image: "ProductPS.png",
+          video: "VideoPS.mp4",
+          description: "",
+          tarifs: [
+            { weight: "10g", price: 50.0 },
+            { weight: "25g", price: 90.0 },
+          ],
+        },
+        ] }
       ]
     },
     {
@@ -57,7 +121,23 @@ document.addEventListener('DOMContentLoaded', function () {
       image: 'CategWeed.png',
       farms: [
         { id: 'CALI_US', name: '🇺🇸 CALI US', badgeText: 'BuddyCoffee', products: [] },
-        { id: 'CALI_CANADA', name: '🇨🇦 CALI CANADA', badgeText: 'BuddyCoffee', products: [] },
+        { id: 'CALI_CANADA', name: '🇨🇦 CALI CANADA', badgeText: 'BuddyCoffee', products: [
+               {
+          id: "Cali 🇨🇦",
+          flag: "🇨🇦",
+          name: "Cali 🇨🇦",
+          farm: "BuddySelection 🧤",
+          promoEligible: true,
+          type: "Jaune",
+          image: "ProductCC.png",
+          video: "VideoCC.mp4",
+          description: "",
+          tarifs: [
+            { weight: "10g", price: 50.0 },
+            { weight: "25g", price: 90.0 },
+          ],
+        },
+        ] },
         { id: 'AMNESIA', name: '🌿 AMNÉSIA', badgeText: 'BuddyCoffee', products: [] }
       ]
     },
@@ -68,8 +148,40 @@ document.addEventListener('DOMContentLoaded', function () {
       quality: '✨ AUTRE',
       image: 'CategAutre.png',
       farms: [
-        { id: 'COKE', name: '🌬️ COKE', badgeText: 'BuddyCoffee', products: [] },
-        { id: 'TAZ', name: '💊 TAZ', badgeText: 'BuddyCoffee', products: [] },
+        { id: 'COKE', name: '🌬️ COKE', badgeText: 'BuddyCoffee', products: [
+              {
+          id: "C",
+          flag: "",
+          name: "C 🌬️",
+          farm: "BuddySelection 🧤",
+          promoEligible: true,
+          type: "Jaune",
+          image: "ProductC.png",
+          video: "VideoC.mp4",
+          description: "",
+          tarifs: [
+            { weight: "10g", price: 50.0 },
+            { weight: "25g", price: 90.0 },
+          ],
+        },
+        ] },
+        { id: 'TAZ', name: '💊 TAZ', badgeText: 'BuddyCoffee', products: [
+              {
+          id: "Bonbon",
+          flag: "",
+          name: "Bonbon 💊",
+          farm: "BuddySelection 🧤",
+          promoEligible: true,
+          type: "Jaune",
+          image: "ProductB.png",
+          video: "VideoB.mp4",
+          description: "",
+          tarifs: [
+            { weight: "10g", price: 50.0 },
+            { weight: "25g", price: 90.0 },
+          ],
+        },
+        ] },
       ]
     }
   ];
