@@ -5,33 +5,32 @@ document.addEventListener('DOMContentLoaded', function () {
     tg.setHeaderColor('#171020');
     tg.setBackgroundColor('#09060f');
   // --- CONFIGURATION DES CONTACTS (BUDDYCOFFEE) ---
-  const contactLinks = [
+    const contactLinks = [
     {
-      name: 'WHATSAPP',
-      url: 'https://wa.me/33759177158',
-      id: 'whatsapp',
-      className: 'whatsapp',
-      text: 'WHATSAPP 🟢  +33 7 59 17 71 58',
-      icon: '#icon-whatsapp'
+        name: 'WHATSAPP',
+        url: 'https://wa.me/33759177158',
+        id: 'whatsapp',
+        className: 'whatsapp',
+        text: 'WHATSAPP 🟢',
+        icon: '#icon-whatsapp'
     },
     {
-      name: 'SIGNAL',
-      copyText: '@buddy68.68',
-      id: 'signal',
-      className: 'signal',
-      text: 'SIGNAL 🔵  @buddy68.68',
-      icon: '#icon-signal'
+        name: 'SIGNAL',
+        copyText: '@buddy68.68',
+        id: 'signal',
+        className: 'signal',
+        text: 'SIGNAL 🔵',
+        icon: '#icon-signal'
     },
     {
-      name: 'TELEGRAM',
-      url: 'https://t.me/buddy682',
-      id: 'telegram',
-      className: 'telegram-canal',
-      text: 'TELEGRAM ✈️  @buddy682',
-      icon: '#icon-telegram'
+        name: 'TELEGRAM',
+        url: 'https://t.me/buddy682',
+        id: 'telegram',
+        className: 'telegram-canal',
+        text: 'TELEGRAM ✈️',
+        icon: '#icon-telegram'
     }
-  ];
-
+];
   // --- DONNÉES BUDDYCOFFEE ---
   // Les tableaux products sont volontairement vides : tu peux ajouter les nouveaux produits ensuite
   // sans garder d'anciens produits de l'ancien bot par erreur.
@@ -565,24 +564,38 @@ ${product.description ? `<div class="product-description">${product.description}
 
     // --- ACTIONS DIVERSES ---
     function renderContactPage() {
-        const linksContainer = document.getElementById('contact-links-container');
-        linksContainer.innerHTML = contactLinks.map(link => {
-            if (link.copyText) {
-                return `
-                <button type="button" class="contact-link ${link.className} contact-copy-btn" data-copy="${link.copyText}">
-                    <svg width="24" height="24"><use href="${link.icon}"/></svg>
-                    <span>${link.text}</span>
-                    <small>Appuie pour copier</small>
-                </button>`;
-            }
+    const linksContainer = document.getElementById('contact-links-container');
 
+    linksContainer.innerHTML = contactLinks.map(link => {
+
+        // Signal = copie le pseudo
+        if (link.copyText) {
             return `
-            <a href="${link.url}" class="contact-link ${link.className}" target="_blank" rel="noopener noreferrer">
-                <svg width="24" height="24"><use href="${link.icon}"/></svg>
+                <a href="#"
+                   class="contact-link ${link.className} contact-copy-btn"
+                   data-copy="${link.copyText}">
+                    <svg width="24" height="24">
+                        <use href="${link.icon}"/>
+                    </svg>
+                    <span>${link.text}</span>
+                </a>
+            `;
+        }
+
+        // WhatsApp / Telegram = ouvre le lien
+        return `
+            <a href="${link.url}"
+               class="contact-link ${link.className}"
+               target="_blank"
+               rel="noopener noreferrer">
+                <svg width="24" height="24">
+                    <use href="${link.icon}"/>
+                </svg>
                 <span>${link.text}</span>
-            </a>`;
-        }).join('');
-    }
+            </a>
+        `;
+    }).join('');
+}
 
     function updateCartCount() {
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
