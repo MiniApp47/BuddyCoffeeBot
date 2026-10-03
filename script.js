@@ -198,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentFarmId = null;
     let appliedPromo = null;
     let paymentMethod = 'Espèce';
+    let deliveryMode = 'Livraison';
 
     const validPromoCodes = {};
 
@@ -550,6 +551,26 @@ ${product.description ? `<div class="product-description">${product.description}
             btn.classList.toggle('active', btn.dataset.method === paymentMethod);
         });
 
+        // Préremplit le contact avec les informations Telegram quand elles sont disponibles.
+        const clientContactInput = document.getElementById('client-contact');
+        if (clientContactInput && !clientContactInput.value.trim()) {
+            const telegramUser = tg.initDataUnsafe && tg.initDataUnsafe.user;
+            if (telegramUser) {
+                if (telegramUser.username) {
+                    clientContactInput.value = `@${telegramUser.username}`;
+                } else {
+                    const fullName = [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(' ');
+                    clientContactInput.value = fullName
+                        ? `${fullName} - Telegram ID: ${telegramUser.id}`
+                        : `Telegram ID: ${telegramUser.id}`;
+                }
+            }
+        }
+
+        document.querySelectorAll('.delivery-mode-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === deliveryMode);
+        });
+
         const summaryContainer = document.getElementById('confirmation-summary');
         let summaryHTML = `
             <div class="summary-line"><span>Sous-total:</span><span>${subTotal.toFixed(2)}€</span></div>
@@ -719,9 +740,12 @@ ${product.description ? `<div class="product-description">${product.description}
     }
 
     function formatOrderMessage() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const clientContact = document.getElementById('client-contact')?.value.trim() || 'Non renseigné';
+        const clientAddress = document.getElementById('client-address')?.value.trim() || 'Non renseignée';
+
         let subTotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
         let discount = 0;
+
         if (appliedPromo) {
             const promo = validPromoCodes[appliedPromo];
             let discountableAmount = 0;
@@ -736,26 +760,36 @@ ${product.description ? `<div class="product-description">${product.description}
             if (promo.type === 'percent') discount = (discountableAmount * promo.value) / 100;
             else discount = promo.value;
         }
+
         if (discount > subTotal) discount = subTotal;
         const totalPrice = subTotal - discount;
 
         const date = new Date();
-        const formattedDate = `${date.getDate()} ${date.toLocaleString('fr-FR', { month: 'long' })} ${date.getFullYear()} a ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+        const formattedDate = `${date.getDate()} ${date.toLocaleString('fr-FR', { month: 'long' })} ${date.getFullYear()} à ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
 
-        let message = "NOUVELLE COMMANDE\n\n====================\nRESUME:\n";
-        message += `- ${totalItems} article${totalItems > 1 ? 's' : ''} commande\n`;
-        message += `- Méthode de paiement: ${paymentMethod}\n====================\nDETAIL DES ARTICLES:\n`;
-        cart.forEach((item) => {
-            message += `\n- ${item.name}`;
-            message += `\n  Quantite: ${item.quantity}x ${item.weight}`;
-            message += `\n  Prix unitaire: ${item.unitPrice.toFixed(2)}e`;
-            message += `\n  Sous-total: ${item.totalPrice.toFixed(2)} EUR`;
+        let message = "☕ NOUVELLE COMMANDE BUDDYCOFFEE\n\n";
+
+        message += "1️⃣ CONTACT CLIENT\n";
+        message += `${clientContact}\n\n`;
+
+        message += "2️⃣ COMMANDE EXACTE\n";
+        cart.forEach((item, index) => {
+            message += `${index + 1}. ${item.name}\n`;
+            message += `   • ${item.quantity} x ${item.weight}\n`;
+            message += `   • ${item.unitPrice.toFixed(2)} EUR / unité\n`;
+            message += `   • Sous-total : ${item.totalPrice.toFixed(2)} EUR\n`;
         });
-        message += `\n\n====================\n\nSOUS-TOTAL: ${subTotal.toFixed(2)} EUR`;
-        if (discount > 0) message += `\nREDUCTION (${appliedPromo}): -${discount.toFixed(2)} EUR`;
-        message += `\nTOTAL FINAL: ${totalPrice.toFixed(2)} EUR`;
-        message += " \n-MODE: Livraison / Meet-up à préciser\n \n-CONTACT: Merci de confirmer cette commande\n";
-        message += ` \n-Commande passee le: ${formattedDate}\n`;
+        message += `\nTOTAL : ${totalPrice.toFixed(2)} EUR\n`;
+        if (discount > 0) message += `Réduction (${appliedPromo}) : -${discount.toFixed(2)} EUR\n`;
+        message += `Paiement : ${paymentMethod}\n\n`;
+
+        message += "3️⃣ ADRESSE\n";
+        message += `${clientAddress}\n\n`;
+
+        message += "4️⃣ MODE\n";
+        message += `${deliveryMode === 'Livraison' ? '🚚 Livraison' : '🤝 Meet-up'}\n\n`;
+
+        message += `Commande passée le : ${formattedDate}`;
         return message;
     }
 
@@ -912,6 +946,13 @@ ${product.description ? `<div class="product-description">${product.description}
             });
         }
 
+        if (target.closest('.delivery-mode-btn')) {
+            deliveryMode = target.closest('.delivery-mode-btn').dataset.mode;
+            document.querySelectorAll('.delivery-mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === deliveryMode);
+            });
+        }
+
         if (target.closest('.add-to-cart-btn')) {
             const btn = target.closest('.add-to-cart-btn');
             addToCart(btn.dataset.productId, btn.dataset.weight, parseFloat(btn.dataset.price));
@@ -944,9 +985,28 @@ ${product.description ? `<div class="product-description">${product.description}
         }
 
         if (target.closest('#confirm-order-button')) {
-            // Ton numéro WhatsApp au format international (sans le + ni 00)
-            const phoneNumber = '33759177158'; 
-            
+            const clientContactInput = document.getElementById('client-contact');
+            const clientAddressInput = document.getElementById('client-address');
+            const clientContact = clientContactInput ? clientContactInput.value.trim() : '';
+            const clientAddress = clientAddressInput ? clientAddressInput.value.trim() : '';
+
+            if (!clientContact) {
+                tg.HapticFeedback.notificationOccurred('error');
+                showNotification('❌ Renseigne ton contact avant de commander.');
+                clientContactInput?.focus();
+                return;
+            }
+
+            if (!clientAddress) {
+                tg.HapticFeedback.notificationOccurred('error');
+                showNotification('❌ Renseigne ton adresse avant de commander.');
+                clientAddressInput?.focus();
+                return;
+            }
+
+            // Numéro WhatsApp BuddyCoffee au format international (sans le + ni 00)
+            const phoneNumber = '33759177158';
+
             let message = formatOrderMessage();
             
             // Nettoyage optionnel du message pour WhatsApp

@@ -1129,6 +1129,82 @@
             flex-shrink: 0;
         }
 
+        /* --- COORDONNÉES CLIENT / MODE DE REMISE --- */
+        .order-client-details {
+            margin-top: 22px;
+            padding: 18px;
+            background: rgba(23, 16, 32, 0.92);
+            border: 1px solid #a855f7;
+            border-radius: 16px;
+            box-sizing: border-box;
+        }
+
+        .order-client-details h4 {
+            margin: 0 0 15px 0;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .order-field {
+            margin-bottom: 14px;
+        }
+
+        .order-field label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .order-field input,
+        .order-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 14px;
+            border-radius: 11px;
+            border: 1px solid rgba(168, 85, 247, 0.75);
+            background: #09060f;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .order-field textarea {
+            min-height: 78px;
+            resize: vertical;
+        }
+
+        .order-field input:focus,
+        .order-field textarea:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.16);
+        }
+
+        .delivery-mode-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .delivery-mode-btn {
+            padding: 13px 10px;
+            border-radius: 11px;
+            border: 2px solid var(--secondary-bg-color);
+            background: #09060f;
+            color: var(--hint-color);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .delivery-mode-btn.active {
+            color: #ffffff;
+            border-color: #a855f7;
+            background: linear-gradient(145deg, rgba(124,58,237,0.72), rgba(34,211,238,0.35));
+        }
+
         .payment-options {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1679,6 +1755,30 @@ body {
             </div>
             <h4>Détail des articles</h4>
             <div id="confirmation-items-list">
+            </div>
+
+            <div class="order-client-details">
+                <h4>📍 Informations pour la commande</h4>
+
+                <div class="order-field">
+                    <label for="client-contact">1. Contact client</label>
+                    <input id="client-contact" type="text" autocomplete="tel"
+                        placeholder="Téléphone ou @Telegram">
+                </div>
+
+                <div class="order-field">
+                    <label for="client-address">3. Adresse</label>
+                    <textarea id="client-address" autocomplete="street-address"
+                        placeholder="Adresse complète : numéro, rue, ville, code postal..."></textarea>
+                </div>
+
+                <div class="order-field" style="margin-bottom:0;">
+                    <label>4. Livraison ou Meet-up</label>
+                    <div class="delivery-mode-options">
+                        <button type="button" class="delivery-mode-btn active" data-mode="Livraison">🚚 Livraison</button>
+                        <button type="button" class="delivery-mode-btn" data-mode="Meet-up">🤝 Meet-up</button>
+                    </div>
+                </div>
             </div>
 
             <div class="payment-selector">
